@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import "./App.css";
 
-import NavBar from "./components/NavBarM.jsx";
+import NavBar from "./components/NavBar.jsx";
 // import DataGrid from "./DataGrid"
 import DataGridDemo from "./components/DataGrid";
 import {

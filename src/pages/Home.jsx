@@ -65,7 +65,11 @@ const SciTable = (props) => {
 // };
 
 function get_columns(name) {
-  return [{ field: "name", headerName: name, width: 200 }];
+  return [{ 
+    field: "name", 
+    headerName: name, width: 200,
+    // headerClassName: 'super-app-theme--header',
+  }];
 }
 // const columns = [
 //   // { field: 'id', headerName: 'ID' },
@@ -75,6 +79,7 @@ function get_columns(name) {
 export default function Home() {
   const [spacing, setSpacing] = useState(2);
   const [dense, setDense] = useState(false);
+  const [debug, setDebug] = useState(false);
 
   const criterias = data.connections.map((con) => con.name);
   const [mainFilter, setMainFilter] = useState("");
@@ -91,6 +96,10 @@ export default function Home() {
   };
   const handleChangeDense = (event) => {
     setDense(event.target.checked);
+    console.log("dense: " + dense);
+  };
+  const handleDebug = (event) => {
+    setDebug(event.target.checked);
     console.log("dense: " + dense);
   };
 
@@ -151,7 +160,9 @@ export default function Home() {
       let filteredRows = tempOtherRows.map((or, colId) =>
         or.filter((o) => {
           let hasit = false;
-          hasit = selectedRowData.some((sel)=>sel[colnames[colId]].includes(o.id))
+          hasit = selectedRowData.some((sel) =>
+            sel[colnames[colId]].includes(o.id)
+          );
           // *** alternative
           // hasit = selectedRowData
           //   .flatMap((sel) => sel[colnames[colId]])
@@ -180,9 +191,7 @@ export default function Home() {
     }
   };
 
-  
-  const handleOtherSelection = (ids) => {
-  };
+  const handleOtherSelection = (ids) => {};
 
   const filteredResearchers = data.researchers.filter(
     (researcher) => researcher.institution === mainFilter
@@ -198,37 +207,46 @@ export default function Home() {
           onSelect={(criteria) => handleCriteria(criteria)}
         />
         <FormControlLabel
-          control={<Switch checked={dense} onChange={handleChangeDense} />}
+          control={
+            <Switch
+              id="denseSwitch"
+              checked={dense}
+              onChange={handleChangeDense}
+            />
+          }
           label="Dense padding"
         />
+        <FormControlLabel
+          control={
+            <Switch id="debugSwitch" checked={debug} onChange={handleDebug} />
+          }
+          label="Debug"
+        />
         {/* <MainSearch2 /> */}
-
-        <Typography>mainFilter: {mainFilter}</Typography>
-        <Typography>
-          otherFilters: {otherFilters.map((f) => f.name + ", ")}{" "}
-        </Typography>
-        <Typography>
-          mainColumns.headerName:{" "}
-          {mainColumns.length != 0 &&
-            mainColumns.map((f) => f.headerName + ", ")}
-        </Typography>
-
-        <Typography>
-          mainRows: {mainRows.length != 0 && mainRows.map((f) => f.name + ", ")}
-        </Typography>
-        <Typography>
-          otherRows.header:{" "}
-          {otherRows.name != 0 &&
-            otherRows.map((f) => f.map((g) => g.name) + ", ")}
-        </Typography>
-        <Typography>
-          select.: {selection.map((s) => s.name)}
-          {/* {select.length != 0 &&
-            select.map((f) => f + ", ")} */}
-        </Typography>
-
-        {/* <Typography>otherRows{otherRows[0]}</Typography> */}
-        <Typography>MYDATA{data["analysis"][0].id}</Typography>
+        {debug && (
+          <Grid>
+            <Typography>mainFilter: {mainFilter}</Typography>
+            <Typography>
+              otherFilters: {otherFilters.map((f) => f.name + ", ")}{" "}
+            </Typography>
+            <Typography>
+              mainColumns.headerName:{" "}
+              {mainColumns.length != 0 &&
+                mainColumns.map((f) => f.headerName + ", ")}
+            </Typography>
+            <Typography>
+              mainRows:{" "}
+              {mainRows.length != 0 && mainRows.map((f) => f.name + ", ")}
+            </Typography>
+            <Typography>
+              otherRows.header:{" "}
+              {otherRows.name != 0 &&
+                otherRows.map((f) => f.map((g) => g.name) + ", ")}
+            </Typography>
+            <Typography>select.: {selection.map((s) => s.name)}</Typography>
+            <Typography>MYDATA{data["analysis"][0].id}</Typography>
+          </Grid>
+        )}
         <Grid container justifyContent="center" spacing={spacing}>
           <Grid key={mainFilter} item>
             {mainFilter !== "" && (
@@ -242,7 +260,6 @@ export default function Home() {
                   columns={mainColumns}
                   density={dense ? "compact" : "confortable"}
                   handleSelection={handleSelection}
-              
                 />
 
                 {/*<DataGrid

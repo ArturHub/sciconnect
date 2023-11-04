@@ -3,7 +3,6 @@ import "./App.css";
 
 import NavBar from "./components/NavBar.jsx";
 // import DataGrid from "./DataGrid"
-import DataGridDemo from "./components/DataGrid";
 import {
   Button,
   CssBaseline,
@@ -49,17 +48,12 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <NavBar color={ColorModeContext} />
-          <nav>
+          {/* <nav>
             <Link to="/sciconnect/">Home</Link>
             {" | "}
             <Link to="/sciconnect/About">About</Link>
-          </nav>
+          </nav> */}
           <Outlet />
-
-          {/* Hello */}
-          {/* <Button variant='contained'>MYBUT</Button> */}
-          {/* <GridBox /> */}
-          {/* <DataGridDemo /> */}
         </ThemeProvider>
       </ColorModeContext.Provider>
     </>

@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import "./App.css";
 
 import NavBar from "./components/NavBar.jsx";
-// import DataGrid from "./DataGrid"
 import {
   Button,
   CssBaseline,
@@ -11,7 +10,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Link, Outlet } from "react-router-dom";
-import GridBox from "./components/GridBox";
 import { ColorModeContext } from "./ColorModeContext";
 
 

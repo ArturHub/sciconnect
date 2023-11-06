@@ -11,6 +11,7 @@ import MainSearch from "../components/MainSearch";
 // import MainSearch from "../components/MainSearch2";
 import data from "../assets/data";
 import { DataGrid } from "@mui/x-data-grid";
+import SciTable from "../components/SciTable";
 // const criterias = [
 //   "institutions",
 //   "analysis",
@@ -26,32 +27,14 @@ const SciPaper = styled(Paper)(({ theme }) => ({
   // ...theme.typography.body2,
   // textAlign: 'center',
   // sx={{
-  height: 400,
+  // height: 400,
   width: 300,
   backgrou2ndColor: (theme) =>
     theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   // }}
 }));
 
-const SciTable = (props) => {
-  return (
-    <DataGrid
-      // autoPageSize="true"
-      density={props.density}
-      // autoHeight="true"
-      rows={props.rows}
-      columns={props.columns}
-      pageSize={12}
-      pageSizeOptions={[5, 10]}
-      checkboxSelection
-      // disableColumnMenu='true'
-      disableColumnSelector="true"
-      // loading='true'
-      disableRowSelectionOnClick="true"
-      onRowSelectionModelChange={(ids) => props.handleSelection(ids)}
-    />
-  );
-};
+
 
 // const CustomChip = ({ label, onDelete }) => {
 //   return (
@@ -151,7 +134,9 @@ export default function Home() {
       //   (row) => selectedIDs.has(row.id)
       // )
       const selectedRowData = ids.map((id) =>
-        mainRows.find((row) => row.id === id)
+        // mainRows.find((row) => row.id === id) => in case of table return 
+        mainRows.find((row) => row.name === id)
+
       );
       setSelection(selectedRowData);
       console.log("selectedRowData:" + selectedRowData.map((i) => i.name));
@@ -200,13 +185,14 @@ export default function Home() {
   return (
     // <div>Home Page</div>
     <>
-      <Grid item xs={12}>
+      <Grid item xs='auto'>
+      <Grid padding={1}>
         <MainSearch
           criterias={criterias}
           selectedCriteria={mainFilter}
           onSelect={(criteria) => handleCriteria(criteria)}
         />
-        <FormControlLabel
+        {/* <FormControlLabel
           control={
             <Switch
               id="denseSwitch"
@@ -221,7 +207,8 @@ export default function Home() {
             <Switch id="debugSwitch" checked={debug} onChange={handleDebug} />
           }
           label="Debug"
-        />
+        /> */}
+        </Grid>
         {/* <MainSearch2 /> */}
         {debug && (
           <Grid>
@@ -256,31 +243,12 @@ export default function Home() {
               >
                 {/* <Typography>{selectedCriteria}</Typography> */}
                 <SciTable
+                  id='-1'
                   rows={mainRows}
                   columns={mainColumns}
                   density={dense ? "compact" : "confortable"}
                   handleSelection={handleSelection}
                 />
-
-                {/*<DataGrid
-                  rows={mainRows}
-                  columns={mainColumns}
-                  density={dense ? "compact" : "confortable"}
-                  onRowSelectionModelChange={(ids) => {
-                    console.log(ids);
-                    handleSelection(ids);
-                  }}
-                  //onSelectionChanged={(newSelection) => {
-                  //  console.log("onSelectionChanged:" + newSelection);
-                  //}}
-                  pageSize={12}
-                  pageSizeOptions={[5, 10]}
-                  checkboxSelection
-                  // disableColumnMenu='true'
-                  // disableColumnSelector="true"
-                  // loading='true'
-                  // disableRowSelectionOnClick="true"
-                />*/}
               </SciPaper>
             )}
           </Grid>
@@ -289,6 +257,7 @@ export default function Home() {
               <SciPaper>
                 {/* <Typography>{value.name}</Typography> */}
                 <SciTable
+                  id={index}
                   rows={value}
                   columns={get_columns(otherFilters[index].name)}
                   density={dense ? "compact" : "confortable"}
